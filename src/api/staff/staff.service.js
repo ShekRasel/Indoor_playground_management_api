@@ -1,27 +1,27 @@
-import { createCustomer, findCustomerByEmail } from "./customer.model.js";
+import { createStaff, findStaffByEmail } from "./staff.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
-export async function registerCustomer(data) {
+export async function registerStaff(data) {
   const hash = await bcrypt.hash(data.password, 10);
   const id = Date.now();
-  const customer = {
+  const staff = {
     id,
     name: data.name,
     phone: data.phone,
     email: data.email,
-    address: data.address,
+    roleId: data.roleId,
     username: data.username,
     password: hash,
   };
-  await createCustomer(customer);
+  await createStaff(staff);
   return { id, name: data.name, username: data.username };
 }
 
-export async function loginCustomer({ email, password }) {
-  const user = await findCustomerByEmail(email);
+export async function loginStaff({ email, password }) {
+  const user = await findStaffByEmail(email);
   if (!user) throw new Error("User not found");
 
   const isMatch = await bcrypt.compare(password, user.PASSWORD);
@@ -29,13 +29,22 @@ export async function loginCustomer({ email, password }) {
 
   const token = jwt.sign(
     {
-      id: user.CUSTOMERID,
+      id: user.STAFFID,
       email: user.EMAIL,
       name: user.NAME,
+      role: user.TITLE,
     },
     JWT_SECRET,
     { expiresIn: "1d" }
   );
 
-  return { token, user: { id: user.CUSTOMERID, name: user.NAME, email } };
+  return {
+    token,
+    user: {
+      id: user.STAFFID,
+      name: user.NAME,
+      mail: user.EMAIL,
+      role: user.TITLE,
+    },
+  };
 }

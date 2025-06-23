@@ -3,7 +3,6 @@ import oracledb from "oracledb";
 export async function createCustomer(customer) {
   const conn = await oracledb.getConnection();
 
-  // parameter object 
   const customerParams = {
     id: customer.id,
     name: customer.name,
@@ -34,14 +33,14 @@ export async function createCustomer(customer) {
   await conn.close();
 }
 
-export async function findCustomerByUsername(username) {
+export async function findCustomerByEmail(email) {
   const conn = await oracledb.getConnection();
   const result = await conn.execute(
     `SELECT c.CustomerID, c.Name, c.Phone, c.Email, c.Address, cl.Password
      FROM Customer c
      JOIN CustomerLogin cl ON c.CustomerID = cl.CustomerID
-     WHERE cl.Username = :username`,
-    { username }, 
+      WHERE c.Email = :email`,
+    { email },
     { outFormat: oracledb.OUT_FORMAT_OBJECT }
   );
   await conn.close();
