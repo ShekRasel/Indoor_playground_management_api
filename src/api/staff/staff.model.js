@@ -2,9 +2,10 @@ import oracledb from "oracledb";
 
 export async function createStaff(staff) {
   const conn = await oracledb.getConnection();
+  const id = Date.now();
 
   const staffParams = {
-    id: staff.id,
+    id: id,
     name: staff.name,
     phone: staff.phone,
     email: staff.email,
@@ -18,8 +19,9 @@ export async function createStaff(staff) {
   );
 
   const loginParams = {
-    id: staff.id,
+    id: id,
     username: staff.username,
+    username: staff.email,
     password: staff.password,
   };
 

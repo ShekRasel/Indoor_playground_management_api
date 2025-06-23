@@ -2,7 +2,7 @@ import { createCustomer, findCustomerByEmail } from "./customer.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+const JWT_SECRET = process.env.JWT_SECRET || "your_very_secret_key";
 
 export async function registerCustomer(data) {
   const hash = await bcrypt.hash(data.password, 10);

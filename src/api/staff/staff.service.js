@@ -2,7 +2,7 @@ import { createStaff, findStaffByEmail } from "./staff.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+const JWT_SECRET = process.env.JWT_SECRET || "your_very_secret_key";
 
 export async function registerStaff(data) {
   const hash = await bcrypt.hash(data.password, 10);
@@ -33,6 +33,7 @@ export async function loginStaff({ email, password }) {
       email: user.EMAIL,
       name: user.NAME,
       role: user.TITLE,
+      roleId: user.ROLEID,
     },
     JWT_SECRET,
     { expiresIn: "1d" }
@@ -45,6 +46,7 @@ export async function loginStaff({ email, password }) {
       name: user.NAME,
       mail: user.EMAIL,
       role: user.TITLE,
+      roleId: user.ROLEID,
     },
   };
 }

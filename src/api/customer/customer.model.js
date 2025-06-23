@@ -2,9 +2,10 @@ import oracledb from "oracledb";
 
 export async function createCustomer(customer) {
   const conn = await oracledb.getConnection();
+  const id = Date.now();
 
   const customerParams = {
-    id: customer.id,
+    id: id,
     name: customer.name,
     phone: customer.phone,
     email: customer.email,
@@ -18,7 +19,7 @@ export async function createCustomer(customer) {
   );
 
   const loginParams = {
-    id: customer.id,
+    id: id,
     username: customer.username,
     password: customer.password,
   };
