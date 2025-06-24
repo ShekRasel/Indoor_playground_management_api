@@ -1,4 +1,4 @@
-import oracledb from 'oracledb';
+import oracledb from "oracledb";
 
 export async function getAllPlayAreas() {
   const conn = await oracledb.getConnection();
@@ -8,6 +8,7 @@ export async function getAllPlayAreas() {
        p.PlayAreaID, 
        p.Name, 
        p.Capacity,
+       p.ImageUrl, 
        r.RatePerHour,
        r.DiscountRate
      FROM PlayArea p
