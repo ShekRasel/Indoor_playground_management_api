@@ -12,3 +12,4 @@ router.post("/", authenticate, isAdmin, addBookingStaff);
 router.get("/", authenticate, fetchBookingStaffs);
 
 export default router;
+

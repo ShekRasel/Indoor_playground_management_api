@@ -49,3 +49,35 @@ export async function findStaffByEmail(email) {
   await conn.close();
   return result.rows[0];
 }
+
+export async function getAllStaff() {
+  const conn = await oracledb.getConnection();
+  const result = await conn.execute(
+    `SELECT s.StaffID, s.Name, s.Phone, s.Email, s.RoleID, r.Title AS RoleTitle, sl.Username
+     FROM Staff s
+     JOIN StaffLogin sl ON s.StaffID = sl.StaffID
+     JOIN Role r ON s.RoleID = r.RoleID`,
+    [],
+    { outFormat: oracledb.OUT_FORMAT_OBJECT }
+  );
+  await conn.close();
+  return result.rows;
+}
+
+export async function deleteStaffById(staffId) {
+  const conn = await oracledb.getConnection();
+
+  // Delete login first (FK dependency)
+  await conn.execute(
+    `DELETE FROM StaffLogin WHERE StaffID = :id`,
+    { id: staffId }
+  );
+
+  await conn.execute(
+    `DELETE FROM Staff WHERE StaffID = :id`,
+    { id: staffId }
+  );
+
+  await conn.commit();
+  await conn.close();
+}

@@ -1,4 +1,4 @@
-import { createStaff, findStaffByEmail } from "./staff.model.js";
+import { createStaff, findStaffByEmail,getAllStaff, deleteStaffById } from "./staff.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -49,4 +49,12 @@ export async function loginStaff({ email, password }) {
       roleId: user.ROLEID,
     },
   };
+}
+
+export async function fetchAllStaff() {
+  return await getAllStaff();
+}
+
+export async function removeStaff(id) {
+  await deleteStaffById(id);
 }

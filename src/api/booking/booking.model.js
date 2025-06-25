@@ -53,3 +53,17 @@ export async function countBookings() {
   await conn.close();
   return result.rows[0];
 }
+
+export async function getAllBookings() {
+  const conn = await oracledb.getConnection();
+  const result = await conn.execute(
+    `SELECT b.BookingID, b.BookingDate, b.TimeSlot, c.Name AS CustomerName
+     FROM Booking b
+     JOIN Customer c ON b.CustomerID = c.CustomerID
+     ORDER BY b.BookingDate DESC`,
+    [],
+    { outFormat: oracledb.OUT_FORMAT_OBJECT }
+  );
+  await conn.close();
+  return result.rows;
+}

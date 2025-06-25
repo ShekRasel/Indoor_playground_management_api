@@ -3,11 +3,12 @@ import oracledb from "oracledb";
 
 export async function createStaffSchedule(schedule) {
   const conn = await oracledb.getConnection();
+  const generateId = () => Date.now() + Math.floor(Math.random() * 10000);
   await conn.execute(
     `INSERT INTO StaffSchedule (ScheduleID, StaffID, PlayAreaID, ShiftDate, ShiftTime)
    VALUES (:id, :staffId, :playAreaId, TO_DATE(:shiftDate, 'YYYY-MM-DD'), :shiftTime)`,
     {
-      id: Date.now(),
+      id: { val: generateId() },
       staffId: schedule.staffId,
       playAreaId: schedule.playAreaId,
       shiftDate: schedule.shiftDate,

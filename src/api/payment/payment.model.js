@@ -33,3 +33,4 @@ export async function getAllPayments() {
   await conn.close();
   return result.rows;
 }
+

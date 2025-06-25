@@ -10,6 +10,7 @@ import responsibilityRoutes from "./api/responsibility/responsibility.routes.js"
 import staffScheduleRoutes from "./api/staffSchedule/staffSchedule.routes.js";
 import bookingStaffRoutes from "./api/bookingStaff/bookingStaff.routes.js";
 import paymentRoutes from "./api/payment/payment.route.js";
+import roleRoutes from "./api/role/role.routes.js";
 
 const app = express();
 app.use(express.json());
@@ -44,7 +45,10 @@ app.use("/api/staff-schedules", staffScheduleRoutes);
 app.use("/api/booking-staff", bookingStaffRoutes);
 
 // Mount API routers payment
-app.use("api/payment", paymentRoutes);
+app.use("/api/payment", paymentRoutes);
+
+// Mount API routers role
+app.use("/api/roles", roleRoutes);
 
 // Test Route
 app.get("/", (req, res) => res.json({ message: "API is running" }));

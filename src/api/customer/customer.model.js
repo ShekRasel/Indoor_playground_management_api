@@ -47,3 +47,35 @@ export async function findCustomerByEmail(email) {
   await conn.close();
   return result.rows[0];
 }
+
+export async function getAllCustomers() {
+  const conn = await oracledb.getConnection();
+  const result = await conn.execute(
+    `SELECT c.CustomerID, c.Name, c.Phone, c.Email, c.Address, cl.Username
+     FROM Customer c
+     JOIN CustomerLogin cl ON c.CustomerID = cl.CustomerID`,
+    [],
+    { outFormat: oracledb.OUT_FORMAT_OBJECT }
+  );
+  await conn.close();
+  return result.rows;
+}
+
+export async function deleteCustomerById(customerId) {
+  const conn = await oracledb.getConnection();
+
+  // Delete login info first due to FK constraint
+  await conn.execute(
+    `DELETE FROM CustomerLogin WHERE CustomerID = :id`,
+    { id: customerId }
+  );
+
+  // Then delete customer
+  await conn.execute(
+    `DELETE FROM Customer WHERE CustomerID = :id`,
+    { id: customerId }
+  );
+
+  await conn.commit();
+  await conn.close();
+}

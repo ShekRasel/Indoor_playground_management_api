@@ -1,4 +1,9 @@
-import { createCustomer, findCustomerByEmail } from "./customer.model.js";
+import {
+  createCustomer,
+  findCustomerByEmail,
+  getAllCustomers,
+  deleteCustomerById 
+} from "./customer.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -38,4 +43,12 @@ export async function loginCustomer({ email, password }) {
   );
 
   return { token, user: { id: user.CUSTOMERID, name: user.NAME, email } };
+}
+
+export async function fetchAllCustomers() {
+  return await getAllCustomers();
+}
+
+export async function removeCustomer(id) {
+  await deleteCustomerById(id);
 }
