@@ -9,6 +9,7 @@ export async function getAllPlayAreas() {
        p.Name, 
        p.Capacity,
        p.ImageUrl, 
+       p.Description,        
        r.RatePerHour,
        r.DiscountRate
      FROM PlayArea p
